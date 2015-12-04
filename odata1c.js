@@ -38,5 +38,5 @@ function Odata1c(url, login, pass) {
 	this.patch = function () { }
 }
 
-var odata = new Odata1c('http://acsdc03/acsour1', 'ws', 'ws');
+var odata = new Odata1c('http://localhost', 'login', 'password');
 console.log(odata.getCatalog("ВнешниеОбработки"));
