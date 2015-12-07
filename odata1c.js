@@ -8,27 +8,35 @@ function Odata1c(url, login, pass) {
 		url: url + '/odata/standard.odata/',
 		headers: { 'Accept': 'application/json' }
 	}
-	this.getStandardObjects = function () {
+	this.getStandardObjects = function (callBackFunc) {
 		request.get({ url: this.options.url + '$metadata', header: this.options.headers }, function (error, response, body) {
-			return JSON.parse(body);
+			if (!error && response.statusCode == 200) {
+				callBackFunc(JSON.parse(body));
+			}
 		})
 			.auth(this.login, this.pass, false)
 	}
-	this.getCatalog = function (object1c) {
+	this.getCatalog = function (object1c, callBackFunc) {
 		request.get({ url: this.options.url +'/Catalog_'+encodeURI(object1c), headers: this.options.headers }, function (error, response, body) {
-			return JSON.parse(body);
+			if (!error && response.statusCode == 200) {
+					callBackFunc(JSON.parse(body));
+			}
 		})
 			.auth(this.login, this.pass, false)
 	}
-	this.getDocument = function (object1c) {
+	this.getDocument = function (object1c, callBackFunc) {
 		request.get({ url: this.options.url +'/Document_'+encodeURI(object1c), headers: this.options.headers }, function (error, response, body) {
-			return JSON.parse(body);
+			if (!error && response.statusCode == 200) {
+					callBackFunc(JSON.parse(body));
+			}
 		})
 			.auth(this.login, this.pass, false)
 	}
-	this.getConstant= function (object1c) {
+	this.getConstant= function (object1c, callBackFunc) {
 		request.get({ url: this.options.url +'/Constant_'+encodeURI(object1c), headers: this.options.headers }, function (error, response, body) {
-			return JSON.parse(body);
+			if (!error && response.statusCode == 200) {
+					callBackFunc(JSON.parse(body));
+			}
 		})
 			.auth(this.login, this.pass, false)
 	}	
@@ -38,5 +46,5 @@ function Odata1c(url, login, pass) {
 	this.patch = function () { }
 }
 
-var odata = new Odata1c('http://localhost', 'login', 'password');
-console.log(odata.getCatalog("ВнешниеОбработки"));
+var odata = new Odata1c('http://hostname', 'login', 'password');
+odata.getCatalog("ВнешниеОбработки",function(result){console.log(result)});
